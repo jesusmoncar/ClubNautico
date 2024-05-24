@@ -6,8 +6,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-@Entity
 @Data
+@Entity
 public class Dock {
 
     @Id
@@ -15,7 +15,8 @@ public class Dock {
     private int id_dock;
     private int number;
 
-    private Dock(){
+    public Dock(){
+
     }
 
     public Dock(int id_dock, int number) {
