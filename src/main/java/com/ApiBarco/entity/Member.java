@@ -1,6 +1,5 @@
 package com.ApiBarco.entity;
 
-
 import com.ApiBarco.DTO.MemberDTO;
 import jakarta.persistence.*;
 import lombok.Data;
