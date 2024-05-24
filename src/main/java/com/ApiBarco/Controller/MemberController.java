@@ -1,10 +1,32 @@
-package com.ApiBarco.Controller;
+package com.ApiBarco.controller;
 
+import com.ApiBarco.DTO.MemberDTO;
 
-import org.springframework.stereotype.Controller;
+import com.ApiBarco.service.MemberService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/members")
 public class MemberController {
 
+    @Autowired
+    private MemberService memberService;
 
+    @GetMapping("/{id}")
+    public MemberDTO getMemberById( @PathVariable long id) {
+        return memberService.getMemberById(id);
+    }
+
+    @GetMapping
+    public List<MemberDTO> getAllMembers() {
+        return memberService.getAllMembers();
+    }
+
+    @PostMapping
+    public void createMember(@RequestBody MemberDTO memberDTO) {
+        memberService.createMember(memberDTO);
+    }
 }
