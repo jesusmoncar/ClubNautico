@@ -15,13 +15,12 @@ public class Dock {
     private int id_dock;
     private int number;
 
-    public Dock(){
-    }
-
     public Dock(int id_dock, int number) {
         this.id_dock = id_dock;
         this.number = number;
     }
 
+    public Dock(){
+    }
 
 }
