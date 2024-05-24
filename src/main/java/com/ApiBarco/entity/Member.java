@@ -3,9 +3,9 @@ package com.ApiBarco.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.stereotype.Component;
-
+import com.ApiBarco.entity.*;
 @Component
-@Entity
+@Entity(name = "Member")
 @Data
 public class Member{
 
@@ -16,6 +16,7 @@ public class Member{
     private String last_name;
     private boolean is_master;
 
+    private Ship ej;
     @OneToMany
     @JoinColumn(name="id_ship")
     private Ship ship;
