@@ -18,13 +18,15 @@ public class Master {
     private String last_name;
     private int permit_number;
 
-    public Master(){
-    }
-
     public Master(int id_master, String name, String last_name, int permit_number) {
         this.id_master = id_master;
         this.name = name;
         this.last_name = last_name;
         this.permit_number = permit_number;
     }
+
+    public Master(){
+    }
+
+
 }

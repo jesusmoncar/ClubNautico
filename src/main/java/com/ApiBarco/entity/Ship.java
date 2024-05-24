@@ -13,18 +13,18 @@ public class Ship {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_ship;
+    private Long id_ship;
     private String registration_tag;
-    private String model;
-    private int size;
+    // private String model;
+    // private int size;
 
-    public Ship(){
-    }
-
-    public Ship(int id_ship, String registration_tag, String model, int size) {
+    public Ship(Long id_ship, String registration_tag /*,String model, int size*/) {
         this.id_ship = id_ship;
         this.registration_tag = registration_tag;
-        this.model = model;
-        this.size = size;
+        //this.model = model;
+        //this.size = size;
+    }
+
+    public Ship(){
     }
 }

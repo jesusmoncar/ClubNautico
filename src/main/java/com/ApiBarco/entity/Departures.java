@@ -15,11 +15,11 @@ public class Departures {
     private int id_departure;
     private String departure_time;
 
-    public Departures(){
-    }
-
     public Departures(String departure_time, int id_departure) {
         this.departure_time = departure_time;
         this.id_departure = id_departure;
+    }
+
+    public Departures(){
     }
 }
