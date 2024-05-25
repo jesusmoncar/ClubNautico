@@ -1,15 +1,13 @@
 package com.ApiBarco.entity;
 
-import com.ApiBarco.DTO.MemberDTO;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.springframework.stereotype.Component;
+import lombok.NoArgsConstructor;
+import java.util.List;
 
-@Component
 @Entity(name = "Member")
 @Data
+@NoArgsConstructor
 public class Member {
 
     @Id
@@ -18,18 +16,22 @@ public class Member {
     private String name;
     private String last_name;
     private boolean is_master;
-    private long id_ship;
 
-    public Member(long id_member, String name, String last_name, boolean is_master, long id_ship) {
+    @OneToMany(mappedBy = "member")
+    private List<Ship> ships;
+
+    public Member(long id_member, String name, String last_name, boolean is_master) {
         this.id_member = id_member;
         this.name = name;
         this.last_name = last_name;
         this.is_master = is_master;
-        this.id_ship = id_ship;
     }
 
-    public Member() {
+    public Member(long id_member, String name, String last_name, boolean is_master, List<Ship> ships) {
+        this.id_member = id_member;
+        this.name = name;
+        this.last_name = last_name;
+        this.is_master = is_master;
+        this.ships = ships;
     }
-
-
 }

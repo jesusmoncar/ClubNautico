@@ -1,30 +1,26 @@
 package com.ApiBarco.entity;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity(name = "Ship")
 @Data
+@NoArgsConstructor
 public class Ship {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_ship;
     private String registration_tag;
-    // private String model;
-    // private int size;
 
-    public Ship(Long id_ship, String registration_tag /*,String model, int size*/) {
+    @ManyToOne
+    @JoinColumn(name = "id_member")
+    private Member member;
+
+    public Ship(Long id_ship, String registration_tag, Member member) {
         this.id_ship = id_ship;
         this.registration_tag = registration_tag;
-        //this.model = model;
-        //this.size = size;
-    }
-
-    public Ship(){
+        this.member = member;
     }
 }

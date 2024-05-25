@@ -4,19 +4,15 @@ import lombok.Data;
 
 @Data
 public class ShipDTO {
-    private long id_ship;
+    private Long id_ship;
     private String registration_tag;
-    //private String model;
-    // private int size;
+    private Long memberId;
 
-
-    public ShipDTO(long id_ship, String registration_tag) {
+    public ShipDTO(Long id_ship, String registration_tag, Long memberId) {
         this.id_ship = id_ship;
         this.registration_tag = registration_tag;
+        this.memberId = memberId;
     }
 
-    public ShipDTO(){
-
-    }
 
 }
