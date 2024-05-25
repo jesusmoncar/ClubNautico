@@ -26,15 +26,16 @@ public class MemberService {
         return members.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public Member createMember( MemberDTO memberDTO) {
+    public Member createMember(MemberDTO memberDTO) {
+        System.out.println("Received is_master: " + memberDTO.is_master());
         Member member = new Member(memberDTO.getId_member(), memberDTO.getName(), memberDTO.getLast_name(), memberDTO.is_master(), memberDTO.getId_ship());
         memberRepository.save(member);
-
-
         return member;
     }
 
+
     private MemberDTO convertToDTO(Member member) {
-        return new MemberDTO(member.getId_member(), member.getName(), member.getLast_name(), member.is_master(), member.getId_ship());
+        System.out.println(member.is_master());
+        return  new MemberDTO(member.getId_member(), member.getName(), member.getLast_name(), member.is_master(), member.getId_ship());
     }
 }
