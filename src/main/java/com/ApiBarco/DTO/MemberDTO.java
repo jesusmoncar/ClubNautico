@@ -19,13 +19,8 @@ public class MemberDTO {
     @NotNull(message = "El apellido no puede ser nulo")
     @NotEmpty(message = "El apellido no puede estar vacio")
     private String last_name;
-
-    @JsonProperty("is_master")
     private boolean is_master;
-
-
     private List<Long> ship_ids;
-
     private List<String> ship_registrations;
 
     public MemberDTO(long id_member, String name, String last_name, boolean is_master, List<Long> ship_ids, List<String> ship_registrations) {
