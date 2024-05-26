@@ -1,6 +1,7 @@
 package com.ApiBarco.service;
 
 import com.ApiBarco.DTO.MemberDTO;
+import com.ApiBarco.Exeption.ClubNauticoNotFoundException;
 import com.ApiBarco.entity.Member;
 import com.ApiBarco.entity.Ship;
 import com.ApiBarco.repository.MemberRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,14 +22,18 @@ public class MemberService {
     @Autowired
     private ShipRepository shipRepository;
 
-    public MemberDTO getMemberById(long id) {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new RuntimeException("Member not found"));
+    public MemberDTO getMemberById(long id) throws ClubNauticoNotFoundException {
+        Optional<Member> memberOpt = memberRepository.findById(id);
+        if (!memberOpt.isPresent()) {
+            throw new ClubNauticoNotFoundException("El socio con la id " + id + " no existe");
+        }
+        Member member = memberOpt.get();
         return convertToDTO(member);
     }
 
-    public List<MemberDTO> getAllMembers() {
+    public List<MemberDTO> getAllMembers() throws ClubNauticoNotFoundException {
         List<Member> members = memberRepository.findAll();
-        return members.stream().map(this::convertToDTO).toList();
+        return members.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public Member createMember(MemberDTO memberDTO) {
@@ -35,13 +41,16 @@ public class MemberService {
                 .map(shipId -> shipRepository.findById(shipId)
                         .orElseThrow(() -> new RuntimeException("Ship not found")))
                 .collect(Collectors.toList());
+
         Member member = new Member(memberDTO.getId_member(), memberDTO.getName(), memberDTO.getLast_name(), memberDTO.is_master(), ships);
-        memberRepository.save(member);
-        return member;
+        ships.forEach(ship -> ship.setMember(member));
+
+        return memberRepository.save(member);
     }
 
     private MemberDTO convertToDTO(Member member) {
         List<Long> shipIds = member.getShips().stream().map(Ship::getId_ship).collect(Collectors.toList());
-        return new MemberDTO(member.getId_member(), member.getName(), member.getLast_name(), member.is_master(), shipIds);
+        List<String> shipRegistrations = member.getShips().stream().map(Ship::getRegistration_tag).collect(Collectors.toList());
+        return new MemberDTO(member.getId_member(), member.getName(), member.getLast_name(), member.is_master(), shipIds, shipRegistrations);
     }
 }

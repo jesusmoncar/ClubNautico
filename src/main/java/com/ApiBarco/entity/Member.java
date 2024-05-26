@@ -1,8 +1,10 @@
 package com.ApiBarco.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Entity(name = "Member")
@@ -15,6 +17,7 @@ public class Member {
     private long id_member;
     private String name;
     private String last_name;
+
     private boolean is_master;
 
     @OneToMany(mappedBy = "member")

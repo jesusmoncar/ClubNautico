@@ -1,4 +1,4 @@
-package com.ApiBarco.controller;
+package com.ApiBarco.Controller;
 
 import com.ApiBarco.DTO.ShipDTO;
 import com.ApiBarco.entity.Ship;
