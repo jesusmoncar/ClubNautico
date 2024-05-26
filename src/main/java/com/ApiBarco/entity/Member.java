@@ -20,7 +20,7 @@ public class Member {
 
     private boolean is_master;
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ship> ships;
 
     public Member(long id_member, String name, String last_name, boolean is_master) {

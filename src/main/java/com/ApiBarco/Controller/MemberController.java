@@ -44,7 +44,19 @@ public class MemberController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @DeleteMapping()
 
+    public ResponseEntity<Void> deleteAllMembers() {
+        memberService.deleteAllMembers();
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}")
+
+    public ResponseEntity<Void> deleteMemberById(@PathVariable long id) throws ClubNauticoNotFoundException {
+        memberService.deleteMemberById(id);
+        return ResponseEntity.noContent().build();
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = ex.getBindingResult().getFieldErrors().stream()

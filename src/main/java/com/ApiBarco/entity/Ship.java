@@ -14,7 +14,7 @@ public class Ship {
     private Long id_ship;
     private String registration_tag;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_member")
     private Member member;
 
