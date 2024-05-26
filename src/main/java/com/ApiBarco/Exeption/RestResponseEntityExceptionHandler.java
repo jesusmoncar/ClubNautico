@@ -12,7 +12,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ClubNauticoNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ErrorMessage> memberNotFound( ClubNauticoNotFoundException memberNotFound){
+    public ResponseEntity<ErrorMessage> NotFound ( ClubNauticoNotFoundException memberNotFound){
         ErrorMessage errorMessage = new ErrorMessage(HttpStatus.NOT_FOUND,memberNotFound.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
 

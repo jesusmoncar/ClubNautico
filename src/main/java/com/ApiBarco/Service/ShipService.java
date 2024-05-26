@@ -1,6 +1,7 @@
-package com.ApiBarco.service;
+package com.ApiBarco.Service;
 
 import com.ApiBarco.DTO.ShipDTO;
+import com.ApiBarco.Exeption.ClubNauticoNotFoundException;
 import com.ApiBarco.entity.Member;
 import com.ApiBarco.entity.Ship;
 import com.ApiBarco.repository.MemberRepository;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,10 +22,13 @@ public class ShipService {
     @Autowired
     private MemberRepository memberRepository;
 
-    public ShipDTO getShipById(Long id) {
-        Ship ship = shipRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ship not found"));
-        return convertToDTO(ship);
+    public ShipDTO getShipById(Long id) throws ClubNauticoNotFoundException {
+        Optional<Ship> ship = shipRepository.findById(id);
+        if (!ship.isPresent()) {
+            throw new ClubNauticoNotFoundException("El barco con la id " + id + " no existe");
+        }
+        Ship ship1 = ship.get();
+        return convertToDTO(ship1);
     }
 
     public List<ShipDTO> getAllShips() {
@@ -43,4 +48,16 @@ public class ShipService {
         Long memberId = (ship.getMember() != null) ? ship.getMember().getId_member() : null;
         return new ShipDTO(ship.getId_ship(), ship.getRegistration_tag(), memberId);
     }
+    public void deleteAllShip() {
+        shipRepository.deleteAll();
+    }
+
+    public void deleteShipById(long shipId) throws ClubNauticoNotFoundException {
+        Optional<Ship> shipOp = shipRepository.findById(shipId);
+        if (!shipOp.isPresent()) {
+            throw new ClubNauticoNotFoundException("El barco con la id " + shipId + " no existe");
+        }
+        shipRepository.deleteById(shipId);
+    }
+
 }

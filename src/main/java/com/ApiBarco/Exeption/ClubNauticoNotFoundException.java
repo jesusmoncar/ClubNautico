@@ -4,4 +4,5 @@ public class ClubNauticoNotFoundException extends Exception  {
     public ClubNauticoNotFoundException ( String message ) {
         super(message);
     }
+
 }

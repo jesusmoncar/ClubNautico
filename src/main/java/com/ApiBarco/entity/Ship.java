@@ -1,6 +1,7 @@
 package com.ApiBarco.entity;
 
 import jakarta.persistence.*;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

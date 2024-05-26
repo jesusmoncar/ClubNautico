@@ -48,6 +48,18 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
+    public void deleteAllMembers() {
+        memberRepository.deleteAll();
+    }
+
+
+    public void deleteMemberById(long memberId) throws ClubNauticoNotFoundException {
+        Optional<Member> memberOpt = memberRepository.findById(memberId);
+        if (!memberOpt.isPresent()) {
+            throw new ClubNauticoNotFoundException("El socio con la id " + memberId + " no existe");
+        }
+        memberRepository.deleteById(memberId);
+    }
     private MemberDTO convertToDTO(Member member) {
         List<Long> shipIds = member.getShips().stream().map(Ship::getId_ship).collect(Collectors.toList());
         List<String> shipRegistrations = member.getShips().stream().map(Ship::getRegistration_tag).collect(Collectors.toList());

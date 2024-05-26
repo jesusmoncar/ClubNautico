@@ -11,7 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -52,16 +52,15 @@ public class MemberController {
     }
 
     @DeleteMapping("/{id}")
-
     public ResponseEntity<Void> deleteMemberById(@PathVariable long id) throws ClubNauticoNotFoundException {
         memberService.deleteMemberById(id);
         return ResponseEntity.noContent().build();
     }
+    //manejar las expeciones de las anotaciones @valid
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = ex.getBindingResult().getFieldErrors().stream()
                 .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
-
         return ResponseEntity.badRequest().body(errors);
     }
 
