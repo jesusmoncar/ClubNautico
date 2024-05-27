@@ -1,9 +1,12 @@
 package com.ApiBarco.entity;
 
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
 import lombok.Data;
 
 import java.util.Calendar;
@@ -17,11 +20,15 @@ public class Departures {
     private int id_departure;
     private Calendar departure_time;
 
-    public Departures(Calendar departure_time, int id_departure) {
+    @ManyToOne
+    @JoinColumn(name = "id_master", referencedColumnName = "id_master")
+    private Master master;
+
+    public Departures(Calendar departure_time, Master master) {
         this.departure_time = departure_time;
-        this.id_departure = id_departure;
+        this.master = master;
     }
 
-    public Departures(){
+    public Departures() {
     }
 }

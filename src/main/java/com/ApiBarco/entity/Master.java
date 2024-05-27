@@ -1,6 +1,5 @@
 package com.ApiBarco.entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,7 +17,6 @@ public class Master {
     private String last_name;
     private int permit_number;
 
-
     public Master(int id_master, String name, String last_name, int permit_number) {
         this.id_master = id_master;
         this.name = name;
@@ -26,8 +24,6 @@ public class Master {
         this.permit_number = permit_number;
     }
 
-    public Master(){
+    public Master() {
     }
-
-
 }

@@ -1,4 +1,4 @@
-package com.ApiBarco.service;
+package com.ApiBarco.Service;
 
 import com.ApiBarco.DTO.MemberDTO;
 import com.ApiBarco.Exeption.ClubNauticoNotFoundException;
@@ -38,8 +38,14 @@ public class MemberService {
 
     public Member createMember(MemberDTO memberDTO) {
         List<Ship> ships = memberDTO.getShip_ids().stream()
-                .map(shipId -> shipRepository.findById(shipId)
-                        .orElseThrow(() -> new RuntimeException("Ship not found")))
+                .map(shipId -> {
+                    try {
+                        return shipRepository.findById(shipId)
+                                .orElseThrow(() -> new ClubNauticoNotFoundException("El barco con la id " + shipId+ " no existe"));
+                    } catch (ClubNauticoNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
                 .collect(Collectors.toList());
 
         Member member = new Member(memberDTO.getId_member(), memberDTO.getName(), memberDTO.getLast_name(), memberDTO.is_master(), ships);

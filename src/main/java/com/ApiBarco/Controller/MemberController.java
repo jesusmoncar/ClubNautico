@@ -2,7 +2,7 @@ package com.ApiBarco.Controller;
 
 import com.ApiBarco.DTO.MemberDTO;
 import com.ApiBarco.Exeption.ClubNauticoNotFoundException;
-import com.ApiBarco.service.MemberService;
+import com.ApiBarco.Service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

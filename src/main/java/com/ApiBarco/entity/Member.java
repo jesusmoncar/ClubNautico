@@ -1,6 +1,6 @@
 package com.ApiBarco.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,12 +23,7 @@ public class Member {
     @OneToMany(mappedBy = "member" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ship> ships;
 
-    public Member(long id_member, String name, String last_name, boolean is_master) {
-        this.id_member = id_member;
-        this.name = name;
-        this.last_name = last_name;
-        this.is_master = is_master;
-    }
+
 
     public Member(long id_member, String name, String last_name, boolean is_master, List<Ship> ships) {
         this.id_member = id_member;
