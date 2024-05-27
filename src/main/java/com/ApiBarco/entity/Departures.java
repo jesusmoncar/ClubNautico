@@ -1,12 +1,7 @@
 package com.ApiBarco.entity;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.Calendar;
@@ -18,6 +13,8 @@ public class Departures {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_departure;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Calendar departure_time;
 
     @ManyToOne

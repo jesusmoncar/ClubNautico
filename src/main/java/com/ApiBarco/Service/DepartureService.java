@@ -1,7 +1,6 @@
 package com.ApiBarco.Service;
 
 import com.ApiBarco.DTO.DepartureDTO;
-import com.ApiBarco.DTO.MasterDTO;
 import com.ApiBarco.Exeption.ClubNauticoNotFoundException;
 import com.ApiBarco.entity.Departures;
 import com.ApiBarco.entity.Master;
@@ -41,6 +40,7 @@ public class DepartureService {
                 .orElseThrow(() -> new ClubNauticoNotFoundException("El patrón con la id " + departureDTO.getMasterId() + " no existe"));
 
         Departures departure = new Departures(departureDTO.getDeparture_time(), master);
+        System.out.println(departureDTO.getDeparture_time());
         return departuresRepository.save(departure);
     }
 

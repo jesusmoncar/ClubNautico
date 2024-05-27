@@ -51,13 +51,13 @@ public class MasterService {
     }
 
     private MasterDTO convertToDTO(Master master) {
-        List<DepartureDTO> departures = master.getDepartures().stream()
+        List<DepartureDTO> departuresid = master.getDepartures().stream()
                 .map(this::convertDepartureToDTO)
                 .collect(Collectors.toList());
-        return new MasterDTO(master.getId_master(), master.getName(), master.getLast_name(), master.getPermit_number(), departures);
+        return new MasterDTO(master.getId_master(), master.getName(), master.getLast_name(), master.getPermit_number(), departuresid);
     }
     private DepartureDTO convertDepartureToDTO(Departures departure) {
         Long masterId = (departure.getMaster() != null) ? departure.getMaster().getId_master() : null;
-        return new DepartureDTO(departure.getId_departure(), departure.getDeparture_time(), masterId);
+        return new DepartureDTO(departure.getId_departure(), departure.getDeparture_time() , masterId);
     }
 }
