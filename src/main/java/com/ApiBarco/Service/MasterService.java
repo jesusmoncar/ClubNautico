@@ -38,31 +38,25 @@ public class MasterService {
     }
 
 
-  /*  public Departures createDeparture(DepartureDTO departureDTO) throws ClubNauticoNotFoundException {
-        Master master = masterRepository.findById((long) departureDTO.getMasterId())
-                .orElseThrow(() -> new ClubNauticoNotFoundException("El patrón con la id " + departureDTO.getMasterId() + " no existe"));
-
-        Departures departure = new Departures(departureDTO.getDeparture_time(), master);
-        return departuresRepository.save(departure);
-    }*/
-
-    public Master createMaster(MasterDTO masterDTO){
+    public Master createMaster(MasterDTO masterDTO) throws ClubNauticoNotFoundException {
         List<Departures> departures = masterDTO.getDepartureIds().stream()
-                .map(departureId ->{
-                    try{
+                .map(departureId -> {
+                    try {
                         return departureRepository.findById(departureId)
-                                .orElseThrow() -> new ClubNauticoNotFoundException("La salida con la id " + departureId + " no existe"));
-                    }catch(ClubNauticoNotFoundException e){
+                                .orElseThrow(() -> new ClubNauticoNotFoundException("La salida con la id " + departureId + " no existe"));
+                    } catch (ClubNauticoNotFoundException e) {
                         throw new RuntimeException(e);
                     }
                 })
-                .collec(Collectors.toList());
-    Master master = new Master(masterDTO.getId_master(), masterDTO.getName(),masterDTO.getLast_name(), masterDTO.getPermit_number());
-    departures.forEach(departure -> departure.setMaster(master));
+                .collect(Collectors.toList());
 
-    return masterRepository.save(master);
+        Master master = new Master((long) masterDTO.getId_master(), masterDTO.getName(), masterDTO.getLast_name(), masterDTO.getPermit_number());
+        departures.forEach(departure -> departure.setMaster(master));
 
+        return masterRepository.save(master);
     }
+
+
 
     public void deleteAllMasters(){
         masterRepository.deleteAll();
