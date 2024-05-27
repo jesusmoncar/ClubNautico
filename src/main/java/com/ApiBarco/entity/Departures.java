@@ -21,7 +21,7 @@ public class Departures {
     private Calendar departure_time;
 
     @ManyToOne
-    @JoinColumn(name = "id_master", referencedColumnName = "id_master")
+    @JoinColumn(name = "master_id", nullable = false)
     private Master master;
 
     public Departures(Calendar departure_time, Master master) {

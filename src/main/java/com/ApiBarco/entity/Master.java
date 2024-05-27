@@ -1,10 +1,9 @@
 package com.ApiBarco.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -16,6 +15,9 @@ public class Master {
     private String name;
     private String last_name;
     private int permit_number;
+
+    @OneToMany(mappedBy = "master", cascade = CascadeType.ALL)
+    private List<Departures> departures;
 
     public Master(Long id_master, String name, String last_name, int permit_number) {
         this.id_master = id_master;
