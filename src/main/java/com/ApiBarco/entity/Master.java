@@ -18,6 +18,7 @@ public class Master {
     private String last_name;
     private int permit_number;
 
+
     public Master(int id_master, String name, String last_name, int permit_number) {
         this.id_master = id_master;
         this.name = name;
