@@ -32,7 +32,7 @@ public class MemberController {
     @GetMapping
     public ResponseEntity<List<MemberDTO>> getAllMembers() throws ClubNauticoNotFoundException {
         List<MemberDTO> members = memberService.getAllMembers();
-        if (members.isEmpty()) {
+        if (members.isEmpty() ) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(members, HttpStatus.OK);

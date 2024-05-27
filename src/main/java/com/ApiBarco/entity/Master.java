@@ -12,12 +12,12 @@ public class Master {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_master;
+    private Long id_master;
     private String name;
     private String last_name;
     private int permit_number;
 
-    public Master(int id_master, String name, String last_name, int permit_number) {
+    public Master(Long id_master, String name, String last_name, int permit_number) {
         this.id_master = id_master;
         this.name = name;
         this.last_name = last_name;
