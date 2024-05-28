@@ -28,7 +28,7 @@ public class MasterService {
         return convertToDTO(master);
     }
 
-    public List<MasterDTO> getAllMembers() {
+    public List<MasterDTO> getAllMasters() {
         List<Master> masters = masterRepository.findAll();
         return masters.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
@@ -50,7 +50,7 @@ public class MasterService {
         masterRepository.deleteById(masterId);
     }
 
-    private MasterDTO convertToDTO(Master master) {
+    public MasterDTO convertToDTO(Master master) {
         List<DepartureDTO> departuresid = master.getDepartures().stream()
                 .map(this::convertDepartureToDTO)
                 .collect(Collectors.toList());
