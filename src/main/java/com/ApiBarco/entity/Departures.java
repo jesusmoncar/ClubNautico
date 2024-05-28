@@ -11,13 +11,13 @@ public class Departures {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_departure;
+    private Long id_departure;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar departure_time;
 
     @ManyToOne
-    @JoinColumn(name = "master_id", nullable = false)
+    @JoinColumn(name = "id_master", nullable = false)
     private Master master;
 
     @ManyToOne

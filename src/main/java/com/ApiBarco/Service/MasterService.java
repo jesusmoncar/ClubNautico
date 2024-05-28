@@ -9,6 +9,7 @@ import com.ApiBarco.repository.MasterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,13 +52,15 @@ public class MasterService {
     }
 
     public MasterDTO convertToDTO(Master master) {
-        List<DepartureDTO> departuresid = master.getDepartures().stream()
+        List<DepartureDTO> departures = (master.getDepartures() != null) ? master.getDepartures().stream()
                 .map(this::convertDepartureToDTO)
-                .collect(Collectors.toList());
-        return new MasterDTO(master.getId_master(), master.getName(), master.getLast_name(), master.getPermit_number(), departuresid);
+                .collect(Collectors.toList()) : new ArrayList<>();
+        return new MasterDTO(master.getId_master(), master.getName(), master.getLast_name(), master.getPermit_number(), departures);
     }
+
     private DepartureDTO convertDepartureToDTO(Departures departure) {
         Long masterId = (departure.getMaster() != null) ? departure.getMaster().getId_master() : null;
-        return new DepartureDTO(departure.getId_departure(), departure.getDeparture_time() , masterId);
+        Long shipId = (departure.getShip() != null) ? departure.getShip().getId_ship() : null;
+        return new DepartureDTO(departure.getId_departure(), departure.getDeparture_time(), masterId, shipId);
     }
 }

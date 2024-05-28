@@ -1,8 +1,10 @@
 package com.ApiBarco.DTO;
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
 
@@ -16,13 +18,15 @@ public class MasterDTO {
     @NotNull(message = "El apellido no puede ser nulo")
     @NotEmpty(message = "El apellido no puede estar vacio")
     private String last_name;
-    private int permit_number;
+    @NotNull(message = "El permiso no puede ser nulo")
+    @Max(value = 99999999, message = "El permiso no puede tener más de 8 dígitos")
+    private Long permit_number;
 
 
     private List<DepartureDTO> departures;
 
 
-    public MasterDTO(Long idMaster, String name, String lastName, int permitNumber, List<DepartureDTO> departures) {
+    public MasterDTO(Long idMaster, String name, String lastName, Long permitNumber, List<DepartureDTO> departures) {
         this.id_master = idMaster;
         this.name = name;
         this.last_name = lastName;
@@ -31,7 +35,7 @@ public class MasterDTO {
     }
 
 
-    public MasterDTO(Long idMaster, String name, String lastName, int permitNumber) {
+    public MasterDTO(Long idMaster, String name, String lastName, Long permitNumber) {
         this.id_master = idMaster;
         this.name = name;
         this.last_name = lastName;
