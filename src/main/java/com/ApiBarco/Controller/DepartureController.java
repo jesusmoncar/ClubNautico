@@ -18,22 +18,20 @@ public class DepartureController {
     private DepartureService departureService;
 
     @PostMapping
-    public ResponseEntity<Void> createDepartrue( @RequestBody DepartureDTO departureDTO ) throws ClubNauticoNotFoundException {
+    public ResponseEntity<Void> createDeparture(@RequestBody DepartureDTO departureDTO) throws ClubNauticoNotFoundException {
         departureService.createDeparture(departureDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<DepartureDTO>> getAllDepartures() throws ClubNauticoNotFoundException {
-
-        List<DepartureDTO> departures= departureService.getAllDepartures();
+    public ResponseEntity<List<DepartureDTO>> getAllDepartures() {
+        List<DepartureDTO> departures = departureService.getAllDepartures();
         return new ResponseEntity<>(departures, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
-    public ResponseEntity<DepartureDTO> getMemberById(@PathVariable long id) throws ClubNauticoNotFoundException{
+    public ResponseEntity<DepartureDTO> getDepartureById(@PathVariable long id) throws ClubNauticoNotFoundException {
         DepartureDTO departuresList = departureService.getDepartureById(id);
-        return new ResponseEntity<>(departuresList, HttpStatus.OK );
+        return new ResponseEntity<>(departuresList, HttpStatus.OK);
     }
-
-
 }

@@ -4,8 +4,10 @@ import com.ApiBarco.DTO.DepartureDTO;
 import com.ApiBarco.Exeption.ClubNauticoNotFoundException;
 import com.ApiBarco.entity.Departures;
 import com.ApiBarco.entity.Master;
+import com.ApiBarco.entity.Ship;
 import com.ApiBarco.repository.DepartureRepository;
 import com.ApiBarco.repository.MasterRepository;
+import com.ApiBarco.repository.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ public class DepartureService {
     @Autowired
     private MasterRepository masterRepository;
 
+    @Autowired
+    private ShipRepository shipRepository;
 
     public DepartureDTO getDepartureById(long id) throws ClubNauticoNotFoundException {
         Optional<Departures> departureOpt = departuresRepository.findById(id);
@@ -30,21 +34,23 @@ public class DepartureService {
         Departures departure = departureOpt.get();
         return convertToDTO(departure);
     }
-    public List<DepartureDTO> getAllDepartures() throws ClubNauticoNotFoundException {
+
+    public List<DepartureDTO> getAllDepartures() {
         List<Departures> departuresList = departuresRepository.findAll();
         return departuresList.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public Departures createDeparture(DepartureDTO departureDTO) throws ClubNauticoNotFoundException {
-        Master master = masterRepository.findById((long) departureDTO.getMasterId())
+        Master master = masterRepository.findById(departureDTO.getMasterId())
                 .orElseThrow(() -> new ClubNauticoNotFoundException("El patrón con la id " + departureDTO.getMasterId() + " no existe"));
+        Ship ship = shipRepository.findById(departureDTO.getShipId())
+                .orElseThrow(() -> new ClubNauticoNotFoundException("El barco con la id " + departureDTO.getShipId() + " no existe"));
 
-        Departures departure = new Departures(departureDTO.getDeparture_time(), master);
-        System.out.println(departureDTO.getDeparture_time());
+        Departures departure = new Departures(departureDTO.getDeparture_time(), master, ship);
         return departuresRepository.save(departure);
     }
 
-    public void DeleteAllDepartures() {
+    public void deleteAllDepartures() {
         departuresRepository.deleteAll();
     }
 
@@ -52,18 +58,14 @@ public class DepartureService {
         Optional<Departures> departureOpt = departuresRepository.findById(id);
         if (!departureOpt.isPresent()) {
             throw new ClubNauticoNotFoundException("La salida con la id " + id + " no existe");
-
         }
         Departures departure = departureOpt.get();
         departuresRepository.delete(departure);
     }
 
-
     private DepartureDTO convertToDTO(Departures departure) {
         Long masterId = (departure.getMaster() != null) ? departure.getMaster().getId_master() : null;
-        return new DepartureDTO(departure.getId_departure(), departure.getDeparture_time(), masterId);
+        Long shipId = (departure.getShip() != null) ? departure.getShip().getId_ship() : null;
+        return new DepartureDTO(departure.getId_departure(), departure.getDeparture_time(), masterId, shipId);
     }
-
-
-
 }
