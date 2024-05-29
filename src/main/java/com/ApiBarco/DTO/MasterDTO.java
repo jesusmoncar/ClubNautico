@@ -35,12 +35,4 @@ public class MasterDTO {
     }
 
 
-    public MasterDTO(Long idMaster, String name, String lastName, Long permitNumber) {
-        this.id_master = idMaster;
-        this.name = name;
-        this.last_name = lastName;
-        this.permit_number = permitNumber;
-    }
-
-    public MasterDTO(){}
 }

@@ -3,6 +3,7 @@ package com.ApiBarco.Controller;
 import com.ApiBarco.DTO.MasterDTO;
 import com.ApiBarco.Exeption.ClubNauticoNotFoundException;
 import com.ApiBarco.Service.MasterService;
+import com.ApiBarco.entity.Master;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,9 +39,9 @@ public class MasterController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> createMaster(@Valid @RequestBody MasterDTO masterDTO) {
+    public ResponseEntity<MasterDTO> createMaster(@Valid @RequestBody MasterDTO masterDTO) {
         masterService.createMaster(masterDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(masterDTO,HttpStatus.CREATED);
     }
 
     @DeleteMapping

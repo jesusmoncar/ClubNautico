@@ -40,9 +40,9 @@ public class ShipController {
         return ResponseEntity.noContent().build();
     }
     @PostMapping
-    public ResponseEntity<Ship> createShip(@Valid @RequestBody ShipDTO shipDTO) {
+    public ResponseEntity<ShipDTO> createShip(@Valid @RequestBody ShipDTO shipDTO) throws ClubNauticoNotFoundException{
         Ship ship = shipService.createShip(shipDTO);
-        return new ResponseEntity<>(ship, HttpStatus.CREATED);
+        return new ResponseEntity<>(shipDTO, HttpStatus.CREATED);
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteShipById(@PathVariable long id) throws ClubNauticoNotFoundException {

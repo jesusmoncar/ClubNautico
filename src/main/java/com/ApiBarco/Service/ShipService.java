@@ -36,9 +36,9 @@ public class ShipService {
         return ships.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public Ship createShip(ShipDTO shipDTO) {
+    public Ship createShip(ShipDTO shipDTO) throws ClubNauticoNotFoundException{
         Member member = memberRepository.findById(shipDTO.getMemberId())
-                .orElseThrow(() -> new RuntimeException("Member not found"));
+                .orElseThrow(() -> new ClubNauticoNotFoundException("Miembro no encontrado"));
         Ship ship = new Ship(shipDTO.getId_ship(), shipDTO.getRegistration_tag(), member);
         shipRepository.save(ship);
         return ship;

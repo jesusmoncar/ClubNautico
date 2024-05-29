@@ -16,7 +16,7 @@ public class Departures {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar departure_time;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_master", nullable = false)
     private Master master;
 

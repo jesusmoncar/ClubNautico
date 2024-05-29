@@ -23,9 +23,9 @@ public class DepartureController {
     private DepartureService departureService;
 
     @PostMapping
-    public ResponseEntity<Void> createDeparture(@Valid @RequestBody DepartureDTO departureDTO) throws ClubNauticoNotFoundException {
+    public ResponseEntity<DepartureDTO> createDeparture(@Valid @RequestBody DepartureDTO departureDTO) throws ClubNauticoNotFoundException {
         departureService.createDeparture(departureDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(departureDTO,HttpStatus.CREATED);
     }
 
     @GetMapping
