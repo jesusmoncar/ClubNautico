@@ -20,16 +20,35 @@ public class Member {
 
     private boolean is_master;
 
+
+    private String dockNumber;
+    private double fee;
+
+    private Long permitNumber;
+
     @OneToMany(mappedBy = "member" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ship> ships;
 
-
-
-    public Member(long id_member, String name, String last_name, boolean is_master, List<Ship> ships) {
-        this.id_member = id_member;
-        this.name = name;
-        this.last_name = last_name;
-        this.is_master = is_master;
+    public Member(List<Ship> ships, double fee, String dockNumber, boolean is_master, String last_name, String name, long id_member) {
         this.ships = ships;
+        this.fee = fee;
+        this.dockNumber = dockNumber;
+        this.is_master = is_master;
+        this.last_name = last_name;
+        this.name = name;
+        this.id_member = id_member;
+    }
+
+    public Member(long idMember, String name, String lastName, boolean master, String dockNumber, Double fee, List<Ship> ships, Long permitNumber) {
+        this.id_member = idMember;
+        this.name = name;
+        this.last_name = lastName;
+        this.is_master = master;
+        this.dockNumber = dockNumber;
+        this.fee = fee;
+        this.ships = ships;
+        this.permitNumber= permitNumber;
+
+
     }
 }
