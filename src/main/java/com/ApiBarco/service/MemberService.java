@@ -33,7 +33,7 @@ public class MemberService {
 
     public List<MemberDTO> getAllMembers() throws ClubNauticoNotFoundException {
         List<Member> members = memberRepository.findAll();
-        return members.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return members.stream().map(member -> convertToDTO(member)).collect(Collectors.toList());
     }
 
     public Member createMember(MemberDTO memberDTO) {
@@ -41,15 +41,17 @@ public class MemberService {
                 .map(shipId -> {
                     try {
                         return shipRepository.findById(shipId)
-                                .orElseThrow(() -> new ClubNauticoNotFoundException("El barco con la id " + shipId+ " no existe"));
+                                .orElseThrow(() -> new ClubNauticoNotFoundException("El barco con la id " + shipId + " no existe"));
                     } catch (ClubNauticoNotFoundException e) {
                         throw new RuntimeException(e);
                     }
                 })
                 .collect(Collectors.toList());
 
-        Member member = new Member(memberDTO.getId_member(), memberDTO.getName(), memberDTO.getLast_name(), memberDTO.is_master(), ships);
+        Member member = new Member(memberDTO.getId_member(), memberDTO.getName(), memberDTO.getLast_name(), memberDTO.is_master(), memberDTO.getDockNumber(), memberDTO.getFee(), ships, memberDTO.getPermitNumber());
         ships.forEach(ship -> ship.setMember(member));
+
+
 
         return memberRepository.save(member);
     }
@@ -58,7 +60,6 @@ public class MemberService {
         memberRepository.deleteAll();
     }
 
-
     public void deleteMemberById(long memberId) throws ClubNauticoNotFoundException {
         Optional<Member> memberOpt = memberRepository.findById(memberId);
         if (!memberOpt.isPresent()) {
@@ -66,9 +67,11 @@ public class MemberService {
         }
         memberRepository.deleteById(memberId);
     }
+
     private MemberDTO convertToDTO(Member member) {
         List<Long> shipIds = member.getShips().stream().map(Ship::getId_ship).collect(Collectors.toList());
         List<String> shipRegistrations = member.getShips().stream().map(Ship::getRegistration_tag).collect(Collectors.toList());
-        return new MemberDTO(member.getId_member(), member.getName(), member.getLast_name(), member.is_master(), shipIds, shipRegistrations);
+
+        return new MemberDTO(member.getId_member(), member.getName(), member.getLast_name(), member.is_master(), member.getDockNumber(), member.getFee(), shipIds, shipRegistrations, member.getPermitNumber());
     }
 }
