@@ -1,8 +1,11 @@
 package com.ApiBarco.Controller;
 
+import com.ApiBarco.DTO.MasterDTO;
 import com.ApiBarco.DTO.MemberDTO;
 import com.ApiBarco.Exeption.ClubNauticoNotFoundException;
 import com.ApiBarco.Service.MemberService;
+import com.ApiBarco.entity.Master;
+import com.ApiBarco.entity.Member;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,8 +42,9 @@ public class MemberController {
 
     @PostMapping
     public ResponseEntity<MemberDTO> createMember(@Valid @RequestBody MemberDTO memberDTO) {
-        memberService.createMember(memberDTO);
-        return new ResponseEntity<>(memberDTO, HttpStatus.CREATED);
+        Member member1 = memberService.createMember(memberDTO);
+        MemberDTO memberDTO1 = memberService.convertToDTO(member1);
+        return new ResponseEntity<>(memberDTO1, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
