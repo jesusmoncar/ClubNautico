@@ -51,6 +51,20 @@ public class MasterService {
         masterRepository.deleteById(masterId);
     }
 
+    public MasterDTO updateMaster(long id, MasterDTO masterDTO) throws ClubNauticoNotFoundException {
+        Optional<Master> masterOpt = masterRepository.findById(id);
+        if (!masterOpt.isPresent()) {
+            throw new ClubNauticoNotFoundException("El patrón con la id " + id + " no existe");
+        }
+        Master master = masterOpt.get();
+        master.setName(masterDTO.getName());
+        master.setLast_name(masterDTO.getLast_name());
+        master.setPermit_number(masterDTO.getPermit_number());
+
+        masterRepository.save(master);
+        return convertToDTO(master);
+    }
+
     public MasterDTO convertToDTO(Master master) {
         List<DepartureDTO> departures = (master.getDepartures() != null) ? master.getDepartures().stream()
                 .map(this::convertDepartureToDTO)
