@@ -76,4 +76,26 @@ public class MemberService {
     }
 
 
+    public Optional<Member> findById(Long id) {
+        return memberRepository.findById(id);
+    }
+
+    public Member updateMember(Long id, Member memberDetails) {
+        Optional<Member> optionalMember = memberRepository.findById(id);
+        if (!optionalMember.isPresent()) {
+            throw new RuntimeException("Member not found");
+        }
+
+        Member member = optionalMember.get();
+        member.setName(memberDetails.getName());
+        member.setLast_name(memberDetails.getLast_name());
+        member.set_master(memberDetails.is_master());
+        member.setDockNumber(memberDetails.getDockNumber());
+        member.setFee(memberDetails.getFee());
+        member.setPermitNumber(memberDetails.getPermitNumber());
+        member.setShips(memberDetails.getShips());
+
+        return memberRepository.save(member);
+    }
+
 }
