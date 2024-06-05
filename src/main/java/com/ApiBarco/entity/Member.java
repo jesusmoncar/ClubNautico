@@ -4,6 +4,8 @@ package com.ApiBarco.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLInsert;
+
 
 import java.util.List;
 
@@ -28,7 +30,6 @@ public class Member {
 
     @OneToMany(mappedBy = "member" ,cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ship> ships;
-
     public Member(List<Ship> ships, double fee, String dockNumber, boolean is_master, String last_name, String name, long id_member) {
         this.ships = ships;
         this.fee = fee;
