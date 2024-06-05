@@ -45,6 +45,7 @@ public class DepartureController {
         return new ResponseEntity<>(createdDepartureDTO, HttpStatus.CREATED);
     }
 
+
     @PutMapping("/{id}")
     public ResponseEntity<DepartureDTO> updateDeparture(@PathVariable long id, @Valid @RequestBody DepartureDTO departureDTO) throws ClubNauticoNotFoundException {
         DepartureDTO updatedDepartureDTO = departureService.updateDeparture(id, departureDTO);
