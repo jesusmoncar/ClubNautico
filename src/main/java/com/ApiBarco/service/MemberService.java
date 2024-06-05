@@ -9,6 +9,7 @@ import com.ApiBarco.repository.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,13 +32,13 @@ public class MemberService {
         return convertToDTO(member);
     }
 
-    public List<MemberDTO> getAllMembers() throws ClubNauticoNotFoundException {
+    public List<MemberDTO> getAllMembers() {
         List<Member> members = memberRepository.findAll();
-        return members.stream().map(member -> convertToDTO(member)).collect(Collectors.toList());
+        return members.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public Member createMember(MemberDTO memberDTO) {
-        List<Ship> ships = memberDTO.getShip_ids().stream()
+        List<Ship> ships = memberDTO.getShip_ids() != null ? memberDTO.getShip_ids().stream()
                 .map(shipId -> {
                     try {
                         return shipRepository.findById(shipId)
@@ -46,12 +47,10 @@ public class MemberService {
                         throw new RuntimeException(e);
                     }
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()) : Collections.emptyList();
 
         Member member = new Member(memberDTO.getId_member(), memberDTO.getName(), memberDTO.getLast_name(), memberDTO.is_master(), memberDTO.getDockNumber(), memberDTO.getFee(), ships, memberDTO.getPermitNumber());
         ships.forEach(ship -> ship.setMember(member));
-
-
 
         return memberRepository.save(member);
     }
@@ -68,34 +67,30 @@ public class MemberService {
         memberRepository.deleteById(memberId);
     }
 
-    private MemberDTO convertToDTO(Member member) {
-        List<Long> shipIds = member.getShips().stream().map(Ship::getId_ship).collect(Collectors.toList());
-        List<String> shipRegistrations = member.getShips().stream().map(Ship::getRegistration_tag).collect(Collectors.toList());
-
-        return new MemberDTO(member.getId_member(), member.getName(), member.getLast_name(), member.is_master(), member.getDockNumber(), member.getFee(), shipIds, shipRegistrations, member.getPermitNumber());
-    }
-
-
-    public Optional<Member> findById(Long id) {
-        return memberRepository.findById(id);
-    }
-
-    public Member updateMember(Long id, Member memberDetails) {
+    public MemberDTO updateMember(Long id, MemberDTO memberDTO) throws ClubNauticoNotFoundException {
         Optional<Member> optionalMember = memberRepository.findById(id);
         if (!optionalMember.isPresent()) {
-            throw new RuntimeException("Member not found");
+            throw new ClubNauticoNotFoundException("El socio con la id " + id + " no existe");
         }
 
         Member member = optionalMember.get();
-        member.setName(memberDetails.getName());
-        member.setLast_name(memberDetails.getLast_name());
-        member.set_master(memberDetails.is_master());
-        member.setDockNumber(memberDetails.getDockNumber());
-        member.setFee(memberDetails.getFee());
-        member.setPermitNumber(memberDetails.getPermitNumber());
-        member.setShips(memberDetails.getShips());
+        member.setName(memberDTO.getName());
+        member.setLast_name(memberDTO.getLast_name());
+        member.set_master(memberDTO.is_master());
+        System.out.println(memberDTO.is_master());
+        member.setDockNumber(memberDTO.getDockNumber());
+        member.setFee(memberDTO.getFee());
+        member.setPermitNumber(memberDTO.getPermitNumber());
 
-        return memberRepository.save(member);
+
+
+        memberRepository.save(member);
+        return convertToDTO(member);
     }
 
+    private MemberDTO convertToDTO(Member member) {
+        List<Long> shipIds = member.getShips() != null ? member.getShips().stream().map(Ship::getId_ship).collect(Collectors.toList()) : Collections.emptyList();
+        List<String> shipRegistrations = member.getShips() != null ? member.getShips().stream().map(Ship::getRegistration_tag).collect(Collectors.toList()) : Collections.emptyList();
+        return new MemberDTO(member.getId_member(), member.getName(), member.getLast_name(), member.is_master(), member.getDockNumber(), member.getFee(), shipIds, shipRegistrations, member.getPermitNumber());
+    }
 }
