@@ -71,22 +71,12 @@ public class MemberController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Member> updateMember(@PathVariable Long id, @RequestBody Member memberDetails) {
-        Optional<Member> optionalMember = memberRepository.findById(id);
-        if (!optionalMember.isPresent()) {
+        try {
+            Member updatedMember = memberService.updateMember(id, memberDetails);
+            return ResponseEntity.ok(updatedMember);
+        } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
-
-        Member member = optionalMember.get();
-        member.setName(memberDetails.getName());
-        member.setLast_name(memberDetails.getLast_name());
-        member.set_master(memberDetails.is_master());
-        member.setDockNumber(memberDetails.getDockNumber());
-        member.setFee(memberDetails.getFee());
-        member.setPermitNumber(memberDetails.getPermitNumber());
-        member.setShips(memberDetails.getShips());
-
-        Member updatedMember = memberRepository.save(member);
-        return ResponseEntity.ok(updatedMember);
     }
 }
 
