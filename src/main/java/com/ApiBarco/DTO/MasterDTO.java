@@ -19,6 +19,7 @@ public class MasterDTO {
     @NotEmpty(message = "El apellido no puede estar vacio")
     private String last_name;
     @NotNull(message = "El permiso no puede ser nulo")
+
     @Max(value = 99999999, message = "El permiso no puede tener más de 8 dígitos")
     private Long permit_number;
 

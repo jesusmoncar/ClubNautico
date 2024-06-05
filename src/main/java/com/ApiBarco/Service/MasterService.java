@@ -34,11 +34,18 @@ public class MasterService {
         return masters.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public Master createMaster(MasterDTO masterDTO) {
-        Master master = new Master(masterDTO.getId_master(), masterDTO.getName(), masterDTO.getLast_name(), masterDTO.getPermit_number());
+    public Master createMaster(MasterDTO masterDTO)  throws ClubNauticoNotFoundException{
+        Long permitNumber = masterDTO.getPermit_number();
+
+        // Verificar si el número de permiso ya existe en la base de datos
+        if (masterRepository.existsByPermitNumber(permitNumber)) {
+           throw new ClubNauticoNotFoundException("EL PERMIT NUMBER YA EXISTE");
+        }
+
+        // Si el número de permiso no existe, entonces crear el nuevo Master
+        Master master = new Master(masterDTO.getId_master(), masterDTO.getName(), masterDTO.getLast_name(), permitNumber);
         return masterRepository.save(master);
     }
-
     public void deleteAllMasters() {
         masterRepository.deleteAll();
     }
