@@ -3,6 +3,8 @@ package com.ApiBarco.Controller;
 import com.ApiBarco.DTO.MemberDTO;
 import com.ApiBarco.Exeption.ClubNauticoNotFoundException;
 import com.ApiBarco.Service.MemberService;
+import com.ApiBarco.entity.Member;
+import com.ApiBarco.repository.MemberRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -21,6 +24,9 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+    
+    @Autowired
+    private MemberRepository memberRepository;
 
     @GetMapping("/{id}")
     public ResponseEntity<MemberDTO> getMemberById(@PathVariable long id, @RequestParam(required = false) Long permitNumber) throws ClubNauticoNotFoundException {
@@ -62,4 +68,25 @@ public class MemberController {
                 .collect(Collectors.toMap(FieldError::getField, FieldError::getDefaultMessage));
         return ResponseEntity.badRequest().body(errors);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Member> updateMember(@PathVariable Long id, @RequestBody Member memberDetails) {
+        Optional<Member> optionalMember = memberRepository.findById(id);
+        if (!optionalMember.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Member member = optionalMember.get();
+        member.setName(memberDetails.getName());
+        member.setLast_name(memberDetails.getLast_name());
+        member.set_master(memberDetails.is_master());
+        member.setDockNumber(memberDetails.getDockNumber());
+        member.setFee(memberDetails.getFee());
+        member.setPermitNumber(memberDetails.getPermitNumber());
+        member.setShips(memberDetails.getShips());
+
+        Member updatedMember = memberRepository.save(member);
+        return ResponseEntity.ok(updatedMember);
+    }
 }
+

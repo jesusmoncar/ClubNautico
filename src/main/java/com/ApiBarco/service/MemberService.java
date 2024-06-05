@@ -74,4 +74,6 @@ public class MemberService {
 
         return new MemberDTO(member.getId_member(), member.getName(), member.getLast_name(), member.is_master(), member.getDockNumber(), member.getFee(), shipIds, shipRegistrations, member.getPermitNumber());
     }
+
+
 }

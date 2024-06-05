@@ -88,4 +88,5 @@ public class DepartureService {
         Long shipId = (departure.getShip() != null) ? departure.getShip().getId_ship() : null;
         return new DepartureDTO(departure.getId_departure(), departure.getDeparture_time(), masterId, shipId);
     }
+
 }

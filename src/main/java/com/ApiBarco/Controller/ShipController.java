@@ -1,5 +1,6 @@
 package com.ApiBarco.Controller;
 
+import com.ApiBarco.DTO.MasterDTO;
 import com.ApiBarco.DTO.ShipDTO;
 import com.ApiBarco.Exeption.ClubNauticoNotFoundException;
 import com.ApiBarco.entity.Ship;
@@ -50,6 +51,13 @@ public class ShipController {
         shipService.deleteShipById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ShipDTO> updateShip(@PathVariable long id, @Valid @RequestBody ShipDTO shipDTO) throws ClubNauticoNotFoundException {
+        ShipDTO updatedShipDTO = shipService.updateShip(id, shipDTO);
+        return new ResponseEntity<>(updatedShipDTO, HttpStatus.OK);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = ex.getBindingResult().getFieldErrors().stream()
