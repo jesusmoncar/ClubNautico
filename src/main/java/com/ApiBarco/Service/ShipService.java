@@ -40,11 +40,11 @@ public class ShipService {
         Member member = memberRepository.findById(shipDTO.getMemberId())
                 .orElseThrow(() -> new ClubNauticoNotFoundException("Miembro no encontrado"));
         Ship ship = new Ship(shipDTO.getId_ship(), shipDTO.getRegistration_tag(), member);
-        shipRepository.save(ship);
-        return ship;
+
+        return  shipRepository.save(ship);
     }
 
-    private ShipDTO convertToDTO(Ship ship) {
+    public ShipDTO convertToDTO(Ship ship) {
         Long memberId = (ship.getMember() != null) ? ship.getMember().getId_member() : null;
         return new ShipDTO(ship.getId_ship(), ship.getRegistration_tag(), memberId);
     }
