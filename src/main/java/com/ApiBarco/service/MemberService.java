@@ -88,7 +88,7 @@ public class MemberService {
         return convertToDTO(member);
     }
 
-    private MemberDTO convertToDTO(Member member) {
+    public MemberDTO convertToDTO ( Member member ) {
         List<Long> shipIds = member.getShips() != null ? member.getShips().stream().map(Ship::getId_ship).collect(Collectors.toList()) : Collections.emptyList();
         List<String> shipRegistrations = member.getShips() != null ? member.getShips().stream().map(Ship::getRegistration_tag).collect(Collectors.toList()) : Collections.emptyList();
         return new MemberDTO(member.getId_member(), member.getName(), member.getLast_name(), member.is_master(), member.getDockNumber(), member.getFee(), shipIds, shipRegistrations, member.getPermitNumber());
